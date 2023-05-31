@@ -1,0 +1,3 @@
+IntelliJ shortcuts:
+Alt + C + R => auto format
+Shift + F6 => rename
