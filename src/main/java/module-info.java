@@ -5,6 +5,7 @@ module com.example.galerija {
 
     requires com.dlsc.formsfx;
     requires org.kordamp.ikonli.javafx;
+    requires MaterialFX;
 
     opens com.example.galerija;
     exports com.example.galerija;

@@ -1,0 +1,25 @@
+.button {
+    -fx-background-color: #2C77CB;
+    -fx-text-fill: #F1F7FF;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-border-width: 0;
+    -fx-padding: 8px 16px;
+    -fx-cursor: hand;
+}
+
+.button:hover {
+    -fx-background-color: #7AB7FC;
+}
+
+.button:pressed {
+    -fx-background-color: #112C49;
+}
+
+.button:focused {
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.16), 4, 0, 0, 4);
+}
+
+.button:selected {
+    -fx-background-color: #112C49;
+}
