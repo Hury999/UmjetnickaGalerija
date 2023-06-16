@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 <?import io.github.palexdev.materialfx.controls.MFXButton?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
@@ -18,108 +18,63 @@
    <children>
       <GridPane gridLinesVisible="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <columnConstraints>
-          <ColumnConstraints halignment="LEFT" hgrow="ALWAYS" minWidth="20.0" percentWidth="20.0" prefWidth="100.0" />
+          <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" minWidth="20.0" percentWidth="20.0" prefWidth="100.0" />
           <ColumnConstraints halignment="LEFT" hgrow="ALWAYS" minWidth="30.0" prefWidth="100.0" />
         </columnConstraints>
         <rowConstraints>
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS" />
         </rowConstraints>
          <children>
-            <VBox alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" prefHeight="287.0" prefWidth="563.0" GridPane.hgrow="ALWAYS" GridPane.valignment="TOP" GridPane.vgrow="ALWAYS">
+            <AnchorPane prefHeight="200.0" prefWidth="200.0">
                <children>
-                  <MFXButton alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="44.0" prefWidth="241.0" rippleColor="#7ec1ee" stylesheets="@menuButtonStyle.css" text="Djelo">
-                     <graphic>
-                        <FontAwesomeIconView glyphName="BOOK">
+                  <VBox minHeight="100.0" minWidth="-Infinity" prefHeight="200.0" prefWidth="100.0" stylesheets="@menuButtonStyle.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="100.0">
+                     <children>
+                        <MFXButton fx:id="btnDjelo" maxWidth="1.7976931348623157E308" text="Djelo" />
+                        <MFXButton fx:id="btnDvorana" maxWidth="1.7976931348623157E308" text="Dvorana" />
+                        <MFXButton fx:id="btnIzlozba" maxWidth="1.7976931348623157E308" text="Izlozba" />
+                        <MFXButton fx:id="btnLokacija" maxWidth="1.7976931348623157E308" text="Lokacija" />
+                        <MFXButton fx:id="btnPravac" maxWidth="1.7976931348623157E308" text="Pravac" />
+                        <MFXButton fx:id="btnTehnika" maxWidth="1.7976931348623157E308" text="Tehnika" />
+                        <MFXButton fx:id="btnUmjetnik" maxWidth="1.7976931348623157E308" text="Umjetnik" />
+                     </children>
+                  </VBox>
+               </children>
+            </AnchorPane>
+            <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1">
+               <children>
+                  <VBox prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <children>
+                        <Text fill="#2c2c2c" strokeType="OUTSIDE" strokeWidth="0.0" text="Djelo" textOrigin="CENTER">
                            <font>
-                              <Font size="17.0" />
+                              <Font name="Segoe UI Light" size="26.0" />
                            </font>
-                        </FontAwesomeIconView>
-                     </graphic>
-                     <font>
-                        <Font name="Segoe UI" size="12.0" />
-                     </font>
-                  </MFXButton>
-                  <MFXButton alignment="CENTER" layoutX="10.0" layoutY="10.0" maxWidth="1.7976931348623157E308" prefHeight="44.0" prefWidth="241.0" rippleColor="#7ec1ee" text="Djelo">
-                     <graphic>
-                        <FontAwesomeIconView glyphName="BOOK" />
-                     </graphic>
-                     <VBox.margin>
-                        <Insets />
-                     </VBox.margin>
-                     <font>
-                        <Font name="Segoe UI" size="12.0" />
-                     </font>
-                  </MFXButton>
-                  <MFXButton alignment="CENTER" layoutX="10.0" layoutY="98.0" maxWidth="1.7976931348623157E308" prefHeight="44.0" prefWidth="241.0" rippleColor="#7ec1ee" text="Djelo">
-                     <graphic>
-                        <FontAwesomeIconView glyphName="BOOK" />
-                     </graphic>
-                     <font>
-                        <Font name="Segoe UI" size="12.0" />
-                     </font>
-                  </MFXButton>
-                  <MFXButton alignment="CENTER" layoutX="10.0" layoutY="10.0" maxWidth="1.7976931348623157E308" prefHeight="44.0" prefWidth="241.0" rippleColor="#7ec1ee" text="Djelo">
-                     <graphic>
-                        <FontAwesomeIconView glyphName="BOOK" />
-                     </graphic>
-                     <font>
-                        <Font name="Segoe UI" size="12.0" />
-                     </font>
-                  </MFXButton>
-                  <MFXButton alignment="CENTER" layoutX="10.0" layoutY="142.0" maxWidth="1.7976931348623157E308" prefHeight="44.0" prefWidth="241.0" rippleColor="#7ec1ee" text="Djelo">
-                     <graphic>
-                        <FontAwesomeIconView glyphName="BOOK" />
-                     </graphic>
-                     <font>
-                        <Font name="Segoe UI" size="12.0" />
-                     </font>
-                  </MFXButton>
-                  <MFXButton alignment="CENTER" layoutX="10.0" layoutY="186.0" maxWidth="1.7976931348623157E308" prefHeight="44.0" prefWidth="241.0" rippleColor="#7ec1ee" text="Djelo">
-                     <graphic>
-                        <FontAwesomeIconView glyphName="BOOK" />
-                     </graphic>
-                     <font>
-                        <Font name="Segoe UI" size="12.0" />
-                     </font>
-                  </MFXButton>
-                  <MFXButton alignment="CENTER" layoutX="10.0" layoutY="230.0" maxWidth="1.7976931348623157E308" prefHeight="44.0" prefWidth="241.0" rippleColor="#7ec1ee" text="Djelo">
-                     <graphic>
-                        <FontAwesomeIconView glyphName="BOOK" />
-                     </graphic>
-                     <font>
-                        <Font name="Segoe UI" size="12.0" />
-                     </font>
-                  </MFXButton>
+                           <VBox.margin>
+                              <Insets bottom="20.0" />
+                           </VBox.margin>
+                        </Text>
+                        <HBox minHeight="-Infinity" minWidth="-Infinity" prefHeight="100.0" prefWidth="200.0" VBox.vgrow="NEVER">
+                           <children>
+                              <TextField minHeight="35.0" />
+                              <Button minWidth="30.0" mnemonicParsing="false" stylesheets="@menuButtonStyle.css" text="Search">
+                                 <HBox.margin>
+                                    <Insets left="10.0" />
+                                 </HBox.margin>
+                              </Button>
+                           </children>
+                           <VBox.margin>
+                              <Insets left="10.0" />
+                           </VBox.margin>
+                        </HBox>
+                        <TableView fx:id="tableView" maxHeight="1.7976931348623157E308" VBox.vgrow="ALWAYS">
+
+                           <VBox.margin>
+                              <Insets top="-55.0" />
+                           </VBox.margin>
+                        </TableView>
+                     </children>
+                  </VBox>
                </children>
-               <GridPane.margin>
-                  <Insets />
-               </GridPane.margin>
-            </VBox>
-            <VBox alignment="CENTER_LEFT" prefHeight="400.0" prefWidth="617.0" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.valignment="CENTER">
-               <children>
-                  <Text fill="#2c2c2c" strokeType="OUTSIDE" strokeWidth="0.0" text="Djelo">
-                     <font>
-                        <Font name="Segoe UI Light" size="26.0" />
-                     </font>
-                     <VBox.margin>
-                        <Insets left="5.0" />
-                     </VBox.margin>
-                  </Text>
-                  <Button mnemonicParsing="false" stylesheets="@menuButtonStyle.css" text="Button" />
-                  <TableView fx:id="tableView" prefWidth="600" prefHeight="400" AnchorPane.leftAnchor="0" AnchorPane.topAnchor="0">
-                     <columns>
-                        <TableColumn fx:id="colIdDjelo" prefWidth="50" text="ID" />
-                        <TableColumn fx:id="colNaslov" prefWidth="200" text="Naslov" />
-                        <TableColumn fx:id="colGodinaNastanka" prefWidth="100" text="Godina Nastanka" />
-                        <TableColumn fx:id="colIdUmjetnik" prefWidth="50" text="ID Umjetnik" />
-                        <TableColumn fx:id="colIdPravac" prefWidth="50" text="ID Pravac" />
-                        <TableColumn fx:id="colIdTehnika" prefWidth="50" text="ID Tehnika" />
-                        <TableColumn fx:id="colIdIzlozba" prefWidth="50" text="ID Izlozba" />
-                        <TableColumn fx:id="colIdLokacija" prefWidth="50" text="ID Lokacija" />
-                     </columns>
-                  </TableView>
-               </children>
-            </VBox>
+            </AnchorPane>
          </children>
       </GridPane>
    </children>

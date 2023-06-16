@@ -1,27 +1,37 @@
 package com.example.galerija;
 
+import javafx.beans.property.*;
+
 public class Pravac {
-    private int idPravac;
-    private String nazivPravac;
+    private final IntegerProperty idPravac;
+    private final StringProperty nazivPravac;
 
     public Pravac(int idPravac, String nazivPravac) {
-        this.idPravac = idPravac;
-        this.nazivPravac = nazivPravac;
+        this.idPravac = new SimpleIntegerProperty(idPravac);
+        this.nazivPravac = new SimpleStringProperty(nazivPravac);
     }
 
     public int getIdPravac() {
-        return idPravac;
+        return idPravac.get();
     }
 
     public void setIdPravac(int idPravac) {
-        this.idPravac = idPravac;
+        this.idPravac.set(idPravac);
+    }
+
+    public IntegerProperty idPravacProperty() {
+        return idPravac;
     }
 
     public String getNazivPravac() {
-        return nazivPravac;
+        return nazivPravac.get();
     }
 
     public void setNazivPravac(String nazivPravac) {
-        this.nazivPravac = nazivPravac;
+        this.nazivPravac.set(nazivPravac);
+    }
+
+    public StringProperty nazivPravacProperty() {
+        return nazivPravac;
     }
 }

@@ -1,27 +1,37 @@
 package com.example.galerija;
 
+import javafx.beans.property.*;
+
 public class Tehnika {
-    private int idTehnika;
-    private String nazivTehnika;
+    private final IntegerProperty idTehnika;
+    private final StringProperty nazivTehnika;
 
     public Tehnika(int idTehnika, String nazivTehnika) {
-        this.idTehnika = idTehnika;
-        this.nazivTehnika = nazivTehnika;
+        this.idTehnika = new SimpleIntegerProperty(idTehnika);
+        this.nazivTehnika = new SimpleStringProperty(nazivTehnika);
     }
 
     public int getIdTehnika() {
-        return idTehnika;
+        return idTehnika.get();
     }
 
     public void setIdTehnika(int idTehnika) {
-        this.idTehnika = idTehnika;
+        this.idTehnika.set(idTehnika);
+    }
+
+    public IntegerProperty idTehnikaProperty() {
+        return idTehnika;
     }
 
     public String getNazivTehnika() {
-        return nazivTehnika;
+        return nazivTehnika.get();
     }
 
     public void setNazivTehnika(String nazivTehnika) {
-        this.nazivTehnika = nazivTehnika;
+        this.nazivTehnika.set(nazivTehnika);
+    }
+
+    public StringProperty nazivTehnikaProperty() {
+        return nazivTehnika;
     }
 }

@@ -1,27 +1,40 @@
 package com.example.galerija;
 
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+
 public class Dvorana {
-    private int idDvorana;
-    private String nazivDvorana;
+    private final IntegerProperty idDvorana;
+    private final StringProperty nazivDvorana;
 
     public Dvorana(int idDvorana, String nazivDvorana) {
-        this.idDvorana = idDvorana;
-        this.nazivDvorana = nazivDvorana;
+        this.idDvorana = new SimpleIntegerProperty(idDvorana);
+        this.nazivDvorana = new SimpleStringProperty(nazivDvorana);
     }
 
     public int getIdDvorana() {
-        return idDvorana;
+        return idDvorana.get();
     }
 
     public void setIdDvorana(int idDvorana) {
-        this.idDvorana = idDvorana;
+        this.idDvorana.set(idDvorana);
+    }
+
+    public IntegerProperty idDvoranaProperty() {
+        return idDvorana;
     }
 
     public String getNazivDvorana() {
-        return nazivDvorana;
+        return nazivDvorana.get();
     }
 
     public void setNazivDvorana(String nazivDvorana) {
-        this.nazivDvorana = nazivDvorana;
+        this.nazivDvorana.set(nazivDvorana);
+    }
+
+    public StringProperty nazivDvoranaProperty() {
+        return nazivDvorana;
     }
 }

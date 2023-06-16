@@ -1,3 +1,5 @@
 IntelliJ shortcuts:
 Alt + C + R => auto format
 Shift + F6 => rename
+Ctrl + B => find definition
+Shift + K => comment
