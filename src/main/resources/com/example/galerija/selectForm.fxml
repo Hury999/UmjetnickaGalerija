@@ -23,7 +23,8 @@
             <TableView fx:id="tableView" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
             <AnchorPane prefHeight="55.0" prefWidth="50.0">
                <children>
-                  <MFXButton text="Select" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="10.0" />
+                  <MFXButton text="Select" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="10.0"
+                             fx:id="selectButton"/>
                </children>
             </AnchorPane>
          </children>

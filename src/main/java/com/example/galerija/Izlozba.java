@@ -3,81 +3,87 @@ import java.util.Date;
 
 import javafx.beans.property.*;
 
-import javafx.beans.property.*;
-
 public class Izlozba {
-    private final IntegerProperty idIzlozba;
-    private final ObjectProperty<Date> pocetakDatum;
-    private final ObjectProperty<Date> zavrsetakDatum;
-    private final StringProperty tip;
-    private final IntegerProperty idDvorana;
+    private IntegerProperty ID_Izlozba;
+    private ObjectProperty<Date> PocetakDatum;
+    private ObjectProperty<Date> ZavrsetakDatum;
+    private StringProperty Tip;
+    private IntegerProperty ID_Dvorana;
 
-    public Izlozba(int idIzlozba, Date pocetakDatum, Date zavrsetakDatum,
-                   String tip, int idDvorana) {
-        this.idIzlozba = new SimpleIntegerProperty(idIzlozba);
-        this.pocetakDatum = new SimpleObjectProperty<>(pocetakDatum);
-        this.zavrsetakDatum = new SimpleObjectProperty<>(zavrsetakDatum);
-        this.tip = new SimpleStringProperty(tip);
-        this.idDvorana = new SimpleIntegerProperty(idDvorana);
+    public Izlozba() {
+        this.ID_Izlozba = new SimpleIntegerProperty();
+        this.PocetakDatum = new SimpleObjectProperty<>(new Date()); // Set default PocetakDatum to current date
+        this.ZavrsetakDatum = new SimpleObjectProperty<>(new Date()); // Set default ZavrsetakDatum to current date
+        this.Tip = new SimpleStringProperty();
+        this.ID_Dvorana = new SimpleIntegerProperty();
     }
 
-    public int getIdIzlozba() {
-        return idIzlozba.get();
+    public Izlozba(int ID_Izlozba, Date pocetakDatum, Date zavrsetakDatum,
+                   String tip, int IDDvorana) {
+        this.ID_Izlozba = new SimpleIntegerProperty(ID_Izlozba);
+        this.PocetakDatum = new SimpleObjectProperty<>(pocetakDatum);
+        this.ZavrsetakDatum = new SimpleObjectProperty<>(zavrsetakDatum);
+        this.Tip = new SimpleStringProperty(tip);
+        this.ID_Dvorana = new SimpleIntegerProperty(IDDvorana);
     }
 
-    public void setIdIzlozba(int idIzlozba) {
-        this.idIzlozba.set(idIzlozba);
+    public int getID_Izlozba() {
+        return ID_Izlozba.get();
     }
 
-    public IntegerProperty idIzlozbaProperty() {
-        return idIzlozba;
+    public void setID_Izlozba(int ID_Izlozba) {
+        this.ID_Izlozba.set(ID_Izlozba);
+    }
+
+    public IntegerProperty ID_IzlozbaProperty() {
+        return ID_Izlozba;
     }
 
     public Date getPocetakDatum() {
-        return pocetakDatum.get();
+        return PocetakDatum.get();
     }
 
     public void setPocetakDatum(Date pocetakDatum) {
-        this.pocetakDatum.set(pocetakDatum);
+        this.PocetakDatum.set(pocetakDatum);
     }
 
-    public ObjectProperty<Date> pocetakDatumProperty() {
-        return pocetakDatum;
+    public ObjectProperty<Date> PocetakDatumProperty() {
+        return PocetakDatum;
     }
 
     public Date getZavrsetakDatum() {
-        return zavrsetakDatum.get();
+        return ZavrsetakDatum.get();
     }
 
     public void setZavrsetakDatum(Date zavrsetakDatum) {
-        this.zavrsetakDatum.set(zavrsetakDatum);
+        this.ZavrsetakDatum.set(zavrsetakDatum);
     }
 
-    public ObjectProperty<Date> zavrsetakDatumProperty() {
-        return zavrsetakDatum;
+    public ObjectProperty<Date> ZavrsetakDatumProperty() {
+        return ZavrsetakDatum;
     }
 
     public String getTip() {
-        return tip.get();
+        return Tip.get();
     }
 
     public void setTip(String tip) {
-        this.tip.set(tip);
+        this.Tip.set(tip);
     }
 
-    public StringProperty tipProperty() {
-        return tip;
+    public StringProperty TipProperty() {
+        return Tip;
     }
 
-    public int getIdDvorana() {
-        return idDvorana.get();
+    public int getID_Dvorana() {
+        return ID_Dvorana.get();
     }
 
-    public void setIdDvorana(int idDvorana) {
-        this.idDvorana.set(idDvorana);
+    public void setID_Dvorana(int ID_Dvorana) {
+        this.ID_Dvorana.set(ID_Dvorana);
     }
 
-    public IntegerProperty idDvoranaProperty() {
-        return idDvorana;
+    public IntegerProperty ID_DvoranaProperty() {
+        return ID_Dvorana;
     }
 }

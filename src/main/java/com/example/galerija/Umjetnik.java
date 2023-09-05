@@ -3,63 +3,89 @@ package com.example.galerija;
 import javafx.beans.property.*;
 
 public class Umjetnik {
-    private final IntegerProperty idUmjetnik;
-    private final StringProperty ime;
-    private final StringProperty prezime;
-    private final StringProperty biografija;
+    private IntegerProperty ID_Umjetnik;
+    private StringProperty Ime;
+    private StringProperty Prezime;
+    private StringProperty Biografija;
 
-    public Umjetnik(int idUmjetnik, String ime, String prezime, String biografija) {
-        this.idUmjetnik = new SimpleIntegerProperty(idUmjetnik);
-        this.ime = new SimpleStringProperty(ime);
-        this.prezime = new SimpleStringProperty(prezime);
-        this.biografija = new SimpleStringProperty(biografija);
+    public Umjetnik()
+    {
+        this.ID_Umjetnik = new SimpleIntegerProperty();
+        this.Ime = new SimpleStringProperty();
+        this.Prezime = new SimpleStringProperty();
+        this.Biografija = new SimpleStringProperty();
+    }
+    public Umjetnik(int ID_Umjetnik, String ime, String prezime, String biografija) {
+        this.ID_Umjetnik = new SimpleIntegerProperty(ID_Umjetnik);
+        this.Ime = new SimpleStringProperty(ime);
+        this.Prezime = new SimpleStringProperty(prezime);
+        this.Biografija = new SimpleStringProperty(biografija);
     }
 
-    public int getIdUmjetnik() {
-        return idUmjetnik.get();
+    public IntegerProperty IdUmjetnik()
+    {
+        return ID_Umjetnik;
     }
 
-    public void setIdUmjetnik(int idUmjetnik) {
-        this.idUmjetnik.set(idUmjetnik);
+    public StringProperty Ime()
+    {
+        return Ime;
     }
 
-    public IntegerProperty idUmjetnikProperty() {
-        return idUmjetnik;
+    public StringProperty Prezime()
+    {
+        return Prezime;
+    }
+    public StringProperty Biografija()
+    {
+        return Biografija;
+    }
+
+    public int getID_Umjetnik() {
+        return ID_Umjetnik.get();
+    }
+
+    public void setID_Umjetnik(int ID_Umjetnik) {
+        this.ID_Umjetnik.set(ID_Umjetnik);
+    }
+
+    public IntegerProperty ID_UmjetnikProperty() {
+        return ID_Umjetnik;
     }
 
     public String getIme() {
-        return ime.get();
+        return Ime.get();
     }
 
     public void setIme(String ime) {
-        this.ime.set(ime);
+        this.Ime.set(ime);
     }
 
-    public StringProperty imeProperty() {
-        return ime;
+    public StringProperty ImeProperty() {
+        return Ime;
     }
 
     public String getPrezime() {
-        return prezime.get();
+        return Prezime.get();
     }
 
     public void setPrezime(String prezime) {
-        this.prezime.set(prezime);
+        this.Prezime.set(prezime);
     }
 
-    public StringProperty prezimeProperty() {
-        return prezime;
+    public StringProperty PrezimeProperty() {
+        return Prezime;
     }
 
     public String getBiografija() {
-        return biografija.get();
+        return Biografija.get();
     }
 
     public void setBiografija(String biografija) {
-        this.biografija.set(biografija);
+        this.Biografija.set(biografija);
     }
 
-    public StringProperty biografijaProperty() {
-        return biografija;
+    public StringProperty BiografijaProperty() {
+        return Biografija;
     }
 }

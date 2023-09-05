@@ -3,35 +3,40 @@ package com.example.galerija;
 import javafx.beans.property.*;
 
 public class Tehnika {
-    private final IntegerProperty idTehnika;
-    private final StringProperty nazivTehnika;
+    private IntegerProperty ID_Tehnika;
+    private StringProperty NazivTehnika;
 
-    public Tehnika(int idTehnika, String nazivTehnika) {
-        this.idTehnika = new SimpleIntegerProperty(idTehnika);
-        this.nazivTehnika = new SimpleStringProperty(nazivTehnika);
+    public Tehnika() {
+        this.ID_Tehnika = new SimpleIntegerProperty();
+        this.NazivTehnika = new SimpleStringProperty();
     }
 
-    public int getIdTehnika() {
-        return idTehnika.get();
+    public Tehnika(int ID_Tehnika, String nazivTehnika) {
+        this.ID_Tehnika = new SimpleIntegerProperty(ID_Tehnika);
+        this.NazivTehnika = new SimpleStringProperty(nazivTehnika);
     }
 
-    public void setIdTehnika(int idTehnika) {
-        this.idTehnika.set(idTehnika);
+    public int getID_Tehnika() {
+        return ID_Tehnika.get();
     }
 
-    public IntegerProperty idTehnikaProperty() {
-        return idTehnika;
+    public void setID_Tehnika(int ID_Tehnika) {
+        this.ID_Tehnika.set(ID_Tehnika);
+    }
+
+    public IntegerProperty ID_TehnikaProperty() {
+        return ID_Tehnika;
     }
 
     public String getNazivTehnika() {
-        return nazivTehnika.get();
+        return NazivTehnika.get();
     }
 
     public void setNazivTehnika(String nazivTehnika) {
-        this.nazivTehnika.set(nazivTehnika);
+        this.NazivTehnika.set(nazivTehnika);
     }
 
-    public StringProperty nazivTehnikaProperty() {
-        return nazivTehnika;
+    public StringProperty NazivTehnikaProperty() {
+        return NazivTehnika;
     }
 }

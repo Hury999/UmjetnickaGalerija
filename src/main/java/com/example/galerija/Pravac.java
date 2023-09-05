@@ -3,35 +3,40 @@ package com.example.galerija;
 import javafx.beans.property.*;
 
 public class Pravac {
-    private final IntegerProperty idPravac;
-    private final StringProperty nazivPravac;
+    private IntegerProperty ID_Pravac;
+    private StringProperty NazivPravac;
 
-    public Pravac(int idPravac, String nazivPravac) {
-        this.idPravac = new SimpleIntegerProperty(idPravac);
-        this.nazivPravac = new SimpleStringProperty(nazivPravac);
+    public Pravac()
+    {
+        this.ID_Pravac = new SimpleIntegerProperty();
+        this.NazivPravac = new SimpleStringProperty();
+    }
+    public Pravac(int ID_Pravac, String nazivPravac) {
+        this.ID_Pravac = new SimpleIntegerProperty(ID_Pravac);
+        this.NazivPravac = new SimpleStringProperty(nazivPravac);
     }
 
-    public int getIdPravac() {
-        return idPravac.get();
+    public int getID_Pravac() {
+        return ID_Pravac.get();
     }
 
-    public void setIdPravac(int idPravac) {
-        this.idPravac.set(idPravac);
+    public void setID_Pravac(int ID_Pravac) {
+        this.ID_Pravac.set(ID_Pravac);
     }
 
-    public IntegerProperty idPravacProperty() {
-        return idPravac;
+    public IntegerProperty ID_PravacProperty() {
+        return ID_Pravac;
     }
 
     public String getNazivPravac() {
-        return nazivPravac.get();
+        return NazivPravac.get();
     }
 
     public void setNazivPravac(String nazivPravac) {
-        this.nazivPravac.set(nazivPravac);
+        this.NazivPravac.set(nazivPravac);
     }
 
-    public StringProperty nazivPravacProperty() {
-        return nazivPravac;
+    public StringProperty NazivPravacProperty() {
+        return NazivPravac;
     }
 }

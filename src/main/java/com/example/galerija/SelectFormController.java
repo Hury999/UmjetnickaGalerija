@@ -1,7 +1,10 @@
 package com.example.galerija;
 
+import io.github.palexdev.materialfx.controls.MFXButton;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.StringProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -13,43 +16,61 @@ import java.lang.reflect.Field;
 
 public class SelectFormController {
 
-    public SelectFormController()
-    {
+    public SelectFormController() {
 
     }
 
     @FXML
     private TableView<Object> tableView;
 
-    private ObservableList<Object> items = FXCollections.observableArrayList();
     @FXML
-    public void initialize(ObservableList<? extends Object> listOfObjectToShow) {
+    private MFXButton selectButton;
 
+    private ObservableList<Object> items = FXCollections.observableArrayList();
 
+    private Object parentForm;
 
-        // Get the type of the first object in the list
-        Object firstObject = listOfObjectToShow.get(0);
+    @FXML
+    public void initialize(ObservableList<? extends Object> listOfObjectToShow, Object parentForm) {
 
-        Class<?> objectType =  firstObject.getClass();
+        this.parentForm = parentForm;
 
-        generateColumnsForType(objectType);
+        if (listOfObjectToShow.size() > 0) {
+            // Get the type of the first object in the list
+            Object firstObject = listOfObjectToShow.get(0);
 
-        if(objectType == Djelo.class)
-        {
-            //TODO:LOAD DATA FOR DJELO FROM DB
+            Class<?> objectType = firstObject.getClass();
+
+            UtilsForTableView.GenerateColumnsForType(objectType, tableView);
+
+            //LOAD DATA FOR object FROM DB
             DBConnection dbConnection = new DBConnection();
-            ObservableList<Djelo> djela =  dbConnection.GetAllDjelo();
+            ObservableList<?> objects = dbConnection.getAllDataBaseDataForObject(objectType);
 
-            items.setAll(djela);
+            items.setAll(objects);
             tableView.setItems(items);
-
-
-
-        } else if (objectType == Dvorana.class) {
-            DBConnection dbConnection = new DBConnection();
-            ObservableList<Djelo> djela =  dbConnection.GetAllDjelo();
         }
 
+        // Add a listener a Select button
+        selectButton.setOnAction(event -> {
+
+            handleSelectButtonClick();
+        });
+
+    }
+
+    private void handleSelectButtonClick()
+    {
+        // Get the selected item from the TableView
+        Object selectedObjectRowData = tableView.getSelectionModel().getSelectedItem();
+
+        if (selectedObjectRowData != null) {
+            // Now you can work with the selectedObject
+            if(parentForm instanceof DependencyFillFormController dependencyFillFormController)
+            {
+                dependencyFillFormController.setSelectedObjectFromSelectFrom(selectedObjectRowData);
+            }
+        }
     }
 
     private void generateColumnsForType(Class<?> objectType) {

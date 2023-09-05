@@ -3,3 +3,5 @@ Alt + C + R => auto format
 Shift + F6 => rename
 Ctrl + B => find definition
 Shift + K => comment
+Ctrl + Alt + Left => Previous cursor position
+Ctrl + Alt + Right => Next cursor position

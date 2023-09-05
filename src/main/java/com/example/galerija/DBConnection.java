@@ -1,8 +1,11 @@
 package com.example.galerija;
 
+import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
 import java.sql.*;
 
 public class DBConnection {
@@ -22,6 +25,70 @@ public class DBConnection {
             ex.printStackTrace();
         }
         return DataBaseLink;
+    }
+
+
+    public <T> ObservableList<T> getAllDataBaseDataForObject(Class<T> clazz) {
+        ObservableList<T> dbObjects = FXCollections.observableArrayList();
+
+        // Getting the class type of the object
+        String tableName = clazz.getSimpleName(); // Get the class name for the table name
+
+        try {
+            // Connect to the database
+            Connection conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/mojaBaza", "root", "hare");
+
+            String connectQuery = "SELECT * FROM " + tableName;
+
+            Statement statement = conn.createStatement();
+            ResultSet queryOutput = statement.executeQuery(connectQuery);
+
+            // Loop through the result set and append each value to dbObjects list
+            while (queryOutput.next()) {
+                // Populate the object based on the result set
+                T item = createInstanceFromResultSet(clazz, queryOutput);
+                dbObjects.add(item);
+            }
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        } finally {
+            return dbObjects;
+        }
+    }
+
+
+    private <T> T createInstanceFromResultSet(Class<T> clazz, ResultSet resultSet) throws SQLException, IllegalAccessException, InstantiationException {
+        T instance = null;
+
+        try {
+            Constructor<T> constructor = clazz.getDeclaredConstructor();
+            constructor.setAccessible(true);
+            instance = constructor.newInstance();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+        // Loop through all fields in the class
+        for (Field field : clazz.getDeclaredFields()) {
+            String fieldName = field.getName();
+            Object value = resultSet.getObject(fieldName);
+
+            // Convert the value to SimpleIntegerProperty if it's an Integer
+            if (value instanceof Integer && field.getType().equals(IntegerProperty.class)) {
+                value = new SimpleIntegerProperty((Integer) value);
+            } else if (value instanceof String && field.getType().equals(StringProperty.class)) {
+                value = new SimpleStringProperty((String) value);
+            } else if (value instanceof java.sql.Date && field.getType().equals(ObjectProperty.class)) {
+                value = new SimpleObjectProperty<>(new Date(((java.sql.Date) value).getTime()));
+            }
+
+            // Set the value of the field in the instance using reflection
+            field.setAccessible(true);
+            field.set(instance, value);
+        }
+
+        return instance;
     }
 
     // Query the database and map the result set to a list of Djelo objects
@@ -62,7 +129,7 @@ public class DBConnection {
 
     }
 
-    public void insertIntoDjelo(Djelo djelo) {
+    public void InsertIntoDjelo(Djelo djelo) {
         try {
             // Connect to the database
             Connection conn = DriverManager.getConnection("jdbc:MySql://127.0.0.1:3306/mojaBaza", "root", "hare");
@@ -70,14 +137,14 @@ public class DBConnection {
             String insertQuery = "INSERT INTO djelo (ID_Djelo, Naslov, GodinaNastanka, ID_Umjetnik, ID_Pravac, ID_Tehnika, ID_Izlozba, ID_Lokacija) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
             PreparedStatement statement = conn.prepareStatement(insertQuery);
-            statement.setInt(1, djelo.getIdDjelo());
+            statement.setInt(1, djelo.getID_Djelo());
             statement.setString(2, djelo.getNaslov());
             statement.setInt(3, djelo.getGodinaNastanka());
-            statement.setInt(4, djelo.getIdUmjetnik());
-            statement.setInt(5, djelo.getIdPravac());
-            statement.setInt(6, djelo.getIdTehnika());
-            statement.setInt(7, djelo.getIdIzlozba());
-            statement.setInt(8, djelo.getIdLokacija());
+            statement.setInt(4, djelo.getID_Umjetnik());
+            statement.setInt(5, djelo.getID_Pravac());
+            statement.setInt(6, djelo.getID_Tehnika());
+            statement.setInt(7, djelo.getID_Izlozba());
+            statement.setInt(8, djelo.getID_Lokacija());
 
             statement.executeUpdate();
 
@@ -98,12 +165,12 @@ public class DBConnection {
             PreparedStatement statement = conn.prepareStatement(updateQuery);
             statement.setString(1, djelo.getNaslov());
             statement.setInt(2, djelo.getGodinaNastanka());
-            statement.setInt(3, djelo.getIdUmjetnik());
-            statement.setInt(4, djelo.getIdPravac());
-            statement.setInt(5, djelo.getIdTehnika());
-            statement.setInt(6, djelo.getIdIzlozba());
-            statement.setInt(7, djelo.getIdLokacija());
-            statement.setInt(8, djelo.getIdDjelo());
+            statement.setInt(3, djelo.getID_Umjetnik());
+            statement.setInt(4, djelo.getID_Pravac());
+            statement.setInt(5, djelo.getID_Tehnika());
+            statement.setInt(6, djelo.getID_Izlozba());
+            statement.setInt(7, djelo.getID_Lokacija());
+            statement.setInt(8, djelo.getID_Djelo());
 
             int rowsAffected = statement.executeUpdate();
 
@@ -118,28 +185,25 @@ public class DBConnection {
         }
     }
 
-    public void deleteDjelo(Djelo djelo) {
-        try {
-            // Connect to the database
-            Connection conn = DriverManager.getConnection("jdbc:MySql://127.0.0.1:3306/mojaBaza", "root", "hare");
+    public void deleteDjelo(Djelo djelo) throws Exception {
 
-            String deleteQuery = "DELETE FROM djelo WHERE ID_Djelo = ?";
+        // Connect to the database
+        Connection conn = DriverManager.getConnection("jdbc:MySql://127.0.0.1:3306/mojaBaza", "root", "hare");
 
-            PreparedStatement statement = conn.prepareStatement(deleteQuery);
+        String deleteQuery = "DELETE FROM djelo WHERE ID_Djelo = ?";
 
-            statement.setInt(1, djelo.getIdDjelo());
+        PreparedStatement statement = conn.prepareStatement(deleteQuery);
 
-            int rowsAffected = statement.executeUpdate();
+        statement.setInt(1, djelo.getID_Djelo());
 
-            if (rowsAffected > 0) {
-                System.out.println("Djelo deleted successfully.");
-            } else {
-                System.out.println("No rows deleted. Djelo not found.");
-            }
+        int rowsAffected = statement.executeUpdate();
 
-        } catch (Exception ex) {
-            ex.printStackTrace();
+        if (rowsAffected > 0) {
+            System.out.println("Djelo deleted successfully.");
+        } else {
+            System.out.println("No rows deleted. Djelo not found.");
         }
+
     }
 
 
@@ -175,7 +239,7 @@ public class DBConnection {
             String insertQuery = "INSERT INTO dvorana (ID_Dvorana, NazivDvorana) VALUES (?, ?)";
 
             PreparedStatement statement = conn.prepareStatement(insertQuery);
-            statement.setInt(1, dvorana.getIdDvorana());
+            statement.setInt(1, dvorana.getID_Dvorana());
             statement.setString(2, dvorana.getNazivDvorana());
 
             statement.executeUpdate();
@@ -194,7 +258,7 @@ public class DBConnection {
 
             PreparedStatement statement = conn.prepareStatement(updateQuery);
             statement.setString(1, dvorana.getNazivDvorana());
-            statement.setInt(2, dvorana.getIdDvorana());
+            statement.setInt(2, dvorana.getID_Dvorana());
 
             int rowsAffected = statement.executeUpdate();
 
@@ -208,27 +272,26 @@ public class DBConnection {
         }
     }
 
-    public void DeleteDvorana(Dvorana dvorana) {
-        try {
-            Connection conn = DriverManager.getConnection("jdbc:MySql://127.0.0.1:3306/mojaBaza", "root", "hare");
+    public void DeleteDvorana(Dvorana dvorana) throws Exception {
 
-            String deleteQuery = "DELETE FROM dvorana WHERE ID_Dvorana = ?";
+        Connection conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/mojaBaza", "root", "hare");
 
-            PreparedStatement statement = conn.prepareStatement(deleteQuery);
-            statement.setInt(1, dvorana.getIdDvorana());
+        String deleteQuery = "DELETE FROM dvorana WHERE ID_Dvorana = ?";
 
-            int rowsAffected = statement.executeUpdate();
+        PreparedStatement statement = conn.prepareStatement(deleteQuery);
+        statement.setInt(1, dvorana.getID_Dvorana());
 
-            if (rowsAffected > 0) {
-                System.out.println("Dvorana deleted successfully.");
-            } else {
-                System.out.println("No rows deleted. Dvorana not found.");
-            }
-        } catch (Exception ex) {
-            ex.printStackTrace();
+        int rowsAffected = statement.executeUpdate();
+
+        if (rowsAffected > 0) {
+            System.out.println("Dvorana deleted successfully.");
+        } else {
+            System.out.println("No rows deleted. Dvorana not found.");
         }
-    }
 
+        statement.close();
+        conn.close();
+    }
 
     public ObservableList<Izlozba> GetAllIzlozba() {
         ObservableList<Izlozba> izlozbe = FXCollections.observableArrayList();
@@ -262,11 +325,11 @@ public class DBConnection {
                     "VALUES (?, ?, ?, ?, ?)";
 
             PreparedStatement statement = conn.prepareStatement(insertQuery);
-            statement.setInt(1, izlozba.getIdIzlozba());
+            statement.setInt(1, izlozba.getID_Izlozba());
             statement.setDate(2, new java.sql.Date(izlozba.getPocetakDatum().getTime()));
             statement.setDate(3, new java.sql.Date(izlozba.getZavrsetakDatum().getTime()));
             statement.setString(4, izlozba.getTip());
-            statement.setInt(5, izlozba.getIdDvorana());
+            statement.setInt(5, izlozba.getID_Dvorana());
 
             statement.executeUpdate();
 
@@ -285,8 +348,8 @@ public class DBConnection {
             statement.setDate(1, new java.sql.Date(izlozba.getPocetakDatum().getTime()));
             statement.setDate(2, new java.sql.Date(izlozba.getZavrsetakDatum().getTime()));
             statement.setString(3, izlozba.getTip());
-            statement.setInt(4, izlozba.getIdDvorana());
-            statement.setInt(5, izlozba.getIdIzlozba());
+            statement.setInt(4, izlozba.getID_Dvorana());
+            statement.setInt(5, izlozba.getID_Izlozba());
 
             int rowsAffected = statement.executeUpdate();
 
@@ -300,27 +363,24 @@ public class DBConnection {
         }
     }
 
-    public void DeleteIzlozba(Izlozba izlozba) {
-        try (Connection conn = DriverManager.getConnection("jdbc:MySql://127.0.0.1:3306/mojaBaza", "root", "hare")) {
-            String deleteQuery = "DELETE FROM izlozba WHERE ID_Izlozba = ?";
+    public void DeleteIzlozba(Izlozba izlozba) throws Exception {
+        Connection conn = DriverManager.getConnection("jdbc:MySql://127.0.0.1:3306/mojaBaza", "root", "hare");
+        String deleteQuery = "DELETE FROM izlozba WHERE ID_Izlozba = ?";
 
-            PreparedStatement statement = conn.prepareStatement(deleteQuery);
-            statement.setInt(1, izlozba.getIdIzlozba());
+        PreparedStatement statement = conn.prepareStatement(deleteQuery);
+        statement.setInt(1, izlozba.getID_Izlozba());
 
-            int rowsAffected = statement.executeUpdate();
+        int rowsAffected = statement.executeUpdate();
 
-            if (rowsAffected > 0) {
-                System.out.println("Izlozba deleted successfully.");
-            } else {
-                System.out.println("No rows deleted. Izlozba not found.");
-            }
-        } catch (Exception ex) {
-            ex.printStackTrace();
+        if (rowsAffected > 0) {
+            System.out.println("Izlozba deleted successfully.");
+        } else {
+            System.out.println("No rows deleted. Izlozba not found.");
         }
     }
 
 
-    public ObservableList<Lokacija> getAllLokacija() {
+    public ObservableList<Lokacija> GetAllLokacija() {
         ObservableList<Lokacija> lokacije = FXCollections.observableArrayList();
 
         try (Connection conn = DriverManager.getConnection("jdbc:MySql://127.0.0.1:3306/mojaBaza", "root", "hare")) {
@@ -345,15 +405,15 @@ public class DBConnection {
         return lokacije;
     }
 
-    public void insertIntoLokacija(Lokacija lokacija) {
+    public void InsertIntoLokacija(Lokacija lokacija) {
         try (Connection conn = DriverManager.getConnection("jdbc:MySql://127.0.0.1:3306/mojaBaza", "root", "hare")) {
             String insertQuery = "INSERT INTO lokacija (ID_Lokacija, NazivLokacija, BrojProstorije, ID_Dvorana) VALUES (?, ?, ?, ?)";
 
             PreparedStatement statement = conn.prepareStatement(insertQuery);
-            statement.setInt(1, lokacija.getIdLokacija());
+            statement.setInt(1, lokacija.getID_Lokacija());
             statement.setString(2, lokacija.getNazivLokacija());
             statement.setInt(3, lokacija.getBrojProstorije());
-            statement.setInt(4, lokacija.getIdDvorana());
+            statement.setInt(4, lokacija.getID_Dvorana());
 
             statement.executeUpdate();
 
@@ -363,15 +423,15 @@ public class DBConnection {
         }
     }
 
-    public void updateLokacija(Lokacija lokacija) {
+    public void UpdateLokacija(Lokacija lokacija) {
         try (Connection conn = DriverManager.getConnection("jdbc:MySql://127.0.0.1:3306/mojaBaza", "root", "hare")) {
             String updateQuery = "UPDATE lokacija SET NazivLokacija = ?, BrojProstorije = ?, ID_Dvorana = ? WHERE ID_Lokacija = ?";
 
             PreparedStatement statement = conn.prepareStatement(updateQuery);
             statement.setString(1, lokacija.getNazivLokacija());
             statement.setInt(2, lokacija.getBrojProstorije());
-            statement.setInt(3, lokacija.getIdDvorana());
-            statement.setInt(4, lokacija.getIdLokacija());
+            statement.setInt(3, lokacija.getID_Dvorana());
+            statement.setInt(4, lokacija.getID_Lokacija());
 
             int rowsAffected = statement.executeUpdate();
 
@@ -385,28 +445,24 @@ public class DBConnection {
         }
     }
 
-    public void deleteLokacija(Lokacija lokacija) {
-        try (Connection conn = DriverManager.getConnection("jdbc:MySql://127.0.0.1:3306/mojaBaza", "root", "hare")) {
-            String deleteQuery = "DELETE FROM lokacija WHERE ID_Lokacija = ?";
+    public void DeleteLokacija(Lokacija lokacija) throws SQLException {
+        Connection conn = DriverManager.getConnection("jdbc:MySql://127.0.0.1:3306/mojaBaza", "root", "hare");
+        String deleteQuery = "DELETE FROM lokacija WHERE ID_Lokacija = ?";
 
-            PreparedStatement statement = conn.prepareStatement(deleteQuery);
-            statement.setInt(1, lokacija.getIdLokacija());
+        PreparedStatement statement = conn.prepareStatement(deleteQuery);
+        statement.setInt(1, lokacija.getID_Lokacija());
 
-            int rowsAffected = statement.executeUpdate();
+        int rowsAffected = statement.executeUpdate();
 
-            if (rowsAffected > 0) {
-                System.out.println("Lokacija deleted successfully.");
-            } else {
-                System.out.println("No rows deleted. Lokacija not found.");
-            }
-        } catch (Exception ex) {
-            ex.printStackTrace();
+        if (rowsAffected > 0) {
+            System.out.println("Lokacija deleted successfully.");
+        } else {
+            System.out.println("No rows deleted. Lokacija not found.");
         }
     }
 
 
-
-    public ObservableList<Pravac> getAllPravac() {
+    public ObservableList<Pravac> GetAllPravac() {
         ObservableList<Pravac> pravaci = FXCollections.observableArrayList();
 
         try {
@@ -431,14 +487,14 @@ public class DBConnection {
         return pravaci;
     }
 
-    public void insertIntoPravac(Pravac pravac) {
+    public void InsertIntoPravac(Pravac pravac) {
         try {
             Connection conn = DriverManager.getConnection("jdbc:MySql://127.0.0.1:3306/mojaBaza", "root", "hare");
 
             String insertQuery = "INSERT INTO pravac (ID_Pravac, NazivPravac) VALUES (?, ?)";
 
             PreparedStatement statement = conn.prepareStatement(insertQuery);
-            statement.setInt(1, pravac.getIdPravac());
+            statement.setInt(1, pravac.getID_Pravac());
             statement.setString(2, pravac.getNazivPravac());
 
             statement.executeUpdate();
@@ -449,7 +505,7 @@ public class DBConnection {
         }
     }
 
-    public void updatePravac(Pravac pravac) {
+    public void UpdatePravac(Pravac pravac) {
         try {
             Connection conn = DriverManager.getConnection("jdbc:MySql://127.0.0.1:3306/mojaBaza", "root", "hare");
 
@@ -457,7 +513,7 @@ public class DBConnection {
 
             PreparedStatement statement = conn.prepareStatement(updateQuery);
             statement.setString(1, pravac.getNazivPravac());
-            statement.setInt(2, pravac.getIdPravac());
+            statement.setInt(2, pravac.getID_Pravac());
 
             int rowsAffected = statement.executeUpdate();
 
@@ -471,29 +527,25 @@ public class DBConnection {
         }
     }
 
-    public void deletePravac(Pravac pravac) {
-        try {
-            Connection conn = DriverManager.getConnection("jdbc:MySql://127.0.0.1:3306/mojaBaza", "root", "hare");
+    public void DeletePravac(Pravac pravac) throws Exception {
+        Connection conn = DriverManager.getConnection("jdbc:MySql://127.0.0.1:3306/mojaBaza", "root", "hare");
 
-            String deleteQuery = "DELETE FROM pravac WHERE ID_Pravac = ?";
+        String deleteQuery = "DELETE FROM pravac WHERE ID_Pravac = ?";
 
-            PreparedStatement statement = conn.prepareStatement(deleteQuery);
-            statement.setInt(1, pravac.getIdPravac());
+        PreparedStatement statement = conn.prepareStatement(deleteQuery);
+        statement.setInt(1, pravac.getID_Pravac());
 
-            int rowsAffected = statement.executeUpdate();
+        int rowsAffected = statement.executeUpdate();
 
-            if (rowsAffected > 0) {
-                System.out.println("Pravac deleted successfully.");
-            } else {
-                System.out.println("No rows deleted. Pravac not found.");
-            }
-        } catch (Exception ex) {
-            ex.printStackTrace();
+        if (rowsAffected > 0) {
+            System.out.println("Pravac deleted successfully.");
+        } else {
+            System.out.println("No rows deleted. Pravac not found.");
         }
     }
 
 
-    public ObservableList<Tehnika> getAllTehnika() {
+    public ObservableList<Tehnika> GetAllTehnika() {
         ObservableList<Tehnika> tehnike = FXCollections.observableArrayList();
 
         try {
@@ -518,14 +570,14 @@ public class DBConnection {
         return tehnike;
     }
 
-    public void insertIntoTehnika(Tehnika tehnika) {
+    public void InsertIntoTehnika(Tehnika tehnika) {
         try {
             Connection conn = DriverManager.getConnection("jdbc:MySql://127.0.0.1:3306/mojaBaza", "root", "hare");
 
             String insertQuery = "INSERT INTO tehnika (ID_Tehnika, NazivTehnika) VALUES (?, ?)";
 
             PreparedStatement statement = conn.prepareStatement(insertQuery);
-            statement.setInt(1, tehnika.getIdTehnika());
+            statement.setInt(1, tehnika.getID_Tehnika());
             statement.setString(2, tehnika.getNazivTehnika());
 
             statement.executeUpdate();
@@ -536,7 +588,7 @@ public class DBConnection {
         }
     }
 
-    public void updateTehnika(Tehnika tehnika) {
+    public void UpdateTehnika(Tehnika tehnika) {
         try {
             Connection conn = DriverManager.getConnection("jdbc:MySql://127.0.0.1:3306/mojaBaza", "root", "hare");
 
@@ -544,7 +596,7 @@ public class DBConnection {
 
             PreparedStatement statement = conn.prepareStatement(updateQuery);
             statement.setString(1, tehnika.getNazivTehnika());
-            statement.setInt(2, tehnika.getIdTehnika());
+            statement.setInt(2, tehnika.getID_Tehnika());
 
             int rowsAffected = statement.executeUpdate();
 
@@ -558,29 +610,26 @@ public class DBConnection {
         }
     }
 
-    public void deleteTehnika(Tehnika tehnika) {
-        try {
-            Connection conn = DriverManager.getConnection("jdbc:MySql://127.0.0.1:3306/mojaBaza", "root", "hare");
+    public void DeleteTehnika(Tehnika tehnika) throws Exception {
 
-            String deleteQuery = "DELETE FROM tehnika WHERE ID_Tehnika = ?";
+        Connection conn = DriverManager.getConnection("jdbc:MySql://127.0.0.1:3306/mojaBaza", "root", "hare");
 
-            PreparedStatement statement = conn.prepareStatement(deleteQuery);
-            statement.setInt(1, tehnika.getIdTehnika());
+        String deleteQuery = "DELETE FROM tehnika WHERE ID_Tehnika = ?";
 
-            int rowsAffected = statement.executeUpdate();
+        PreparedStatement statement = conn.prepareStatement(deleteQuery);
+        statement.setInt(1, tehnika.getID_Tehnika());
 
-            if (rowsAffected > 0) {
-                System.out.println("Tehnika deleted successfully.");
-            } else {
-                System.out.println("No rows deleted. Tehnika not found.");
-            }
-        } catch (Exception ex) {
-            ex.printStackTrace();
+        int rowsAffected = statement.executeUpdate();
+
+        if (rowsAffected > 0) {
+            System.out.println("Tehnika deleted successfully.");
+        } else {
+            System.out.println("No rows deleted. Tehnika not found.");
         }
     }
 
 
-    public ObservableList<Umjetnik> getAllUmjetnici() {
+    public ObservableList<Umjetnik> GetAllUmjetnik() {
         ObservableList<Umjetnik> umjetnici = FXCollections.observableArrayList();
 
         try {
@@ -607,14 +656,14 @@ public class DBConnection {
         return umjetnici;
     }
 
-    public void insertIntoUmjetnik(Umjetnik umjetnik) {
+    public void InsertIntoUmjetnik(Umjetnik umjetnik) {
         try {
             Connection conn = DriverManager.getConnection("jdbc:MySql://127.0.0.1:3306/mojaBaza", "root", "hare");
 
             String insertQuery = "INSERT INTO umjetnik (ID_Umjetnik, Ime, Prezime, Biografija) VALUES (?, ?, ?, ?)";
 
             PreparedStatement statement = conn.prepareStatement(insertQuery);
-            statement.setInt(1, umjetnik.getIdUmjetnik());
+            statement.setInt(1, umjetnik.getID_Umjetnik());
             statement.setString(2, umjetnik.getIme());
             statement.setString(3, umjetnik.getPrezime());
             statement.setString(4, umjetnik.getBiografija());
@@ -627,7 +676,7 @@ public class DBConnection {
         }
     }
 
-    public void updateUmjetnik(Umjetnik umjetnik) {
+    public void UpdateUmjetnik(Umjetnik umjetnik) {
         try {
             Connection conn = DriverManager.getConnection("jdbc:MySql://127.0.0.1:3306/mojaBaza", "root", "hare");
 
@@ -637,7 +686,7 @@ public class DBConnection {
             statement.setString(1, umjetnik.getIme());
             statement.setString(2, umjetnik.getPrezime());
             statement.setString(3, umjetnik.getBiografija());
-            statement.setInt(4, umjetnik.getIdUmjetnik());
+            statement.setInt(4, umjetnik.getID_Umjetnik());
 
             int rowsAffected = statement.executeUpdate();
 
@@ -651,29 +700,23 @@ public class DBConnection {
         }
     }
 
-    public void deleteUmjetnik(Umjetnik umjetnik) {
-        try {
-            Connection conn = DriverManager.getConnection("jdbc:MySql://127.0.0.1:3306/mojaBaza", "root", "hare");
+    public void DeleteUmjetnik(Umjetnik umjetnik) throws Exception {
 
-            String deleteQuery = "DELETE FROM umjetnik WHERE ID_Umjetnik = ?";
+        Connection conn = DriverManager.getConnection("jdbc:MySql://127.0.0.1:3306/mojaBaza", "root", "hare");
 
-            PreparedStatement statement = conn.prepareStatement(deleteQuery);
-            statement.setInt(1, umjetnik.getIdUmjetnik());
+        String deleteQuery = "DELETE FROM umjetnik WHERE ID_Umjetnik = ?";
 
-            int rowsAffected = statement.executeUpdate();
+        PreparedStatement statement = conn.prepareStatement(deleteQuery);
+        statement.setInt(1, umjetnik.getID_Umjetnik());
 
-            if (rowsAffected > 0) {
-                System.out.println("Umjetnik deleted successfully.");
-            } else {
-                System.out.println("No rows deleted. Umjetnik not found.");
-            }
-        } catch (Exception ex) {
-            ex.printStackTrace();
+        int rowsAffected = statement.executeUpdate();
+
+        if (rowsAffected > 0) {
+            System.out.println("Umjetnik deleted successfully.");
+        } else {
+            System.out.println("No rows deleted. Umjetnik not found.");
         }
     }
-
-
-
 }
 
 

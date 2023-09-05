@@ -6,119 +6,130 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
 public class Djelo {
-    private final IntegerProperty idDjelo;
-    private final StringProperty naslov;
-    private final IntegerProperty godinaNastanka;
-    private final IntegerProperty idUmjetnik;
-    private final IntegerProperty idPravac;
-    private final IntegerProperty idTehnika;
-    private final IntegerProperty idIzlozba;
-    private final IntegerProperty idLokacija;
+    private  IntegerProperty ID_Djelo;
+    private  StringProperty Naslov;
+    private  IntegerProperty GodinaNastanka;
+    private  IntegerProperty ID_Umjetnik;
+    private  IntegerProperty ID_Pravac;
+    private  IntegerProperty ID_Tehnika;
+    private  IntegerProperty ID_Izlozba;
+    private  IntegerProperty ID_Lokacija;
 
-    public Djelo(int idDjelo, String naslov, int godinaNastanka, int idUmjetnik, int idPravac, int idTehnika, int idIzlozba, int idLokacija) {
-        this.idDjelo = new SimpleIntegerProperty(idDjelo);
-        this.naslov = new SimpleStringProperty(naslov);
-        this.godinaNastanka = new SimpleIntegerProperty(godinaNastanka);
-        this.idUmjetnik = new SimpleIntegerProperty(idUmjetnik);
-        this.idPravac = new SimpleIntegerProperty(idPravac);
-        this.idTehnika = new SimpleIntegerProperty(idTehnika);
-        this.idIzlozba = new SimpleIntegerProperty(idIzlozba);
-        this.idLokacija = new SimpleIntegerProperty(idLokacija);
+    public Djelo() {
+        // Parameterless constructor
+        this.ID_Djelo = new SimpleIntegerProperty();
+        this.Naslov = new SimpleStringProperty();
+        this.GodinaNastanka = new SimpleIntegerProperty();
+        this.ID_Umjetnik = new SimpleIntegerProperty();
+        this.ID_Pravac = new SimpleIntegerProperty();
+        this.ID_Tehnika = new SimpleIntegerProperty();
+        this.ID_Izlozba = new SimpleIntegerProperty();
+        this.ID_Lokacija = new SimpleIntegerProperty();
+    }
+    public Djelo(int ID_Djelo, String naslov, int godinaNastanka, int IDUmjetnik, int IDPravac, int ID_Tehnika, int ID_Izlozba, int ID_Lokacija) {
+        this.ID_Djelo = new SimpleIntegerProperty(ID_Djelo);
+        this.Naslov = new SimpleStringProperty(naslov);
+        this.GodinaNastanka = new SimpleIntegerProperty(godinaNastanka);
+        this.ID_Umjetnik = new SimpleIntegerProperty(IDUmjetnik);
+        this.ID_Pravac = new SimpleIntegerProperty(IDPravac);
+        this.ID_Tehnika = new SimpleIntegerProperty(ID_Tehnika);
+        this.ID_Izlozba = new SimpleIntegerProperty(ID_Izlozba);
+        this.ID_Lokacija = new SimpleIntegerProperty(ID_Lokacija);
     }
 
-    public int getIdDjelo() {
-        return idDjelo.get();
+    public int getID_Djelo() {
+        return ID_Djelo.get();
     }
 
-    public void setIdDjelo(int idDjelo) {
-        this.idDjelo.set(idDjelo);
+    public void setID_Djelo(int ID_Djelo) {
+        this.ID_Djelo.set(ID_Djelo);
     }
 
-    public IntegerProperty idDjeloProperty() {
-        return idDjelo;
+    public IntegerProperty ID_DjeloProperty() {
+        return ID_Djelo;
     }
 
     public String getNaslov() {
-        return naslov.get();
+        return Naslov.get();
     }
 
     public void setNaslov(String naslov) {
-        this.naslov.set(naslov);
+        this.Naslov.set(naslov);
     }
 
-    public StringProperty naslovProperty() {
-        return naslov;
+    public StringProperty NaslovProperty() {
+        return Naslov;
     }
 
     public int getGodinaNastanka() {
-        return godinaNastanka.get();
+        return GodinaNastanka.get();
     }
 
     public void setGodinaNastanka(int godinaNastanka) {
-        this.godinaNastanka.set(godinaNastanka);
+        this.GodinaNastanka.set(godinaNastanka);
     }
 
-    public IntegerProperty godinaNastankaProperty() {
-        return godinaNastanka;
+    public IntegerProperty GodinaNastankaProperty() {
+        return GodinaNastanka;
     }
 
-    public int getIdUmjetnik() {
-        return idUmjetnik.get();
+    public int getID_Umjetnik() {
+        return ID_Umjetnik.get();
     }
 
-    public void setIdUmjetnik(int idUmjetnik) {
-        this.idUmjetnik.set(idUmjetnik);
+    public void setID_Umjetnik(int ID_Umjetnik) {
+        this.ID_Umjetnik.set(ID_Umjetnik);
     }
 
-    public IntegerProperty idUmjetnikProperty() {
-        return idUmjetnik;
+    public IntegerProperty ID_UmjetnikProperty() {
+        return ID_Umjetnik;
     }
 
-    public int getIdPravac() {
-        return idPravac.get();
+    public int getID_Pravac() {
+        return ID_Pravac.get();
     }
 
-    public void setIdPravac(int idPravac) {
-        this.idPravac.set(idPravac);
+    public void setID_Pravac(int ID_Pravac) {
+        this.ID_Pravac.set(ID_Pravac);
     }
 
-    public IntegerProperty idPravacProperty() {
-        return idPravac;
+    public IntegerProperty ID_PravacProperty() {
+        return ID_Pravac;
     }
 
-    public int getIdTehnika() {
-        return idTehnika.get();
+    public int getID_Tehnika() {
+        return ID_Tehnika.get();
     }
 
-    public void setIdTehnika(int idTehnika) {
-        this.idTehnika.set(idTehnika);
+    public void setID_Tehnika(int ID_Tehnika) {
+        this.ID_Tehnika.set(ID_Tehnika);
     }
 
-    public IntegerProperty idTehnikaProperty() {
-        return idTehnika;
+    public IntegerProperty ID_TehnikaProperty() {
+        return ID_Tehnika;
     }
 
-    public int getIdIzlozba() {
-        return idIzlozba.get();
+    public int getID_Izlozba() {
+        return ID_Izlozba.get();
     }
 
-    public void setIdIzlozba(int idIzlozba) {
-        this.idIzlozba.set(idIzlozba);
+    public void setID_Izlozba(int ID_Izlozba) {
+        this.ID_Izlozba.set(ID_Izlozba);
     }
 
-    public IntegerProperty idIzlozbaProperty() {
-        return idIzlozba;
+    public IntegerProperty ID_IzlozbaProperty() {
+        return ID_Izlozba;
     }
 
-    public int getIdLokacija() {
-        return idLokacija.get();
+    public int getID_Lokacija() {
+        return ID_Lokacija.get();
     }
 
-    public void setIdLokacija(int idLokacija) {
-        this.idLokacija.set(idLokacija);
+    public void setID_Lokacija(int ID_Lokacija) {
+        this.ID_Lokacija.set(ID_Lokacija);
     }
 
-    public IntegerProperty idLokacijaProperty() {
-        return idLokacija;
+    public IntegerProperty ID_LokacijaProperty() {
+        return ID_Lokacija;
     }
 }

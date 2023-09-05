@@ -6,35 +6,40 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
 public class Dvorana {
-    private final IntegerProperty idDvorana;
-    private final StringProperty nazivDvorana;
+    private IntegerProperty ID_Dvorana;
+    private StringProperty NazivDvorana;
 
-    public Dvorana(int idDvorana, String nazivDvorana) {
-        this.idDvorana = new SimpleIntegerProperty(idDvorana);
-        this.nazivDvorana = new SimpleStringProperty(nazivDvorana);
+    public Dvorana()
+    {
+        this.ID_Dvorana = new SimpleIntegerProperty();
+        this.NazivDvorana = new SimpleStringProperty();
+    }
+    public Dvorana(int ID_Dvorana, String nazivDvorana) {
+        this.ID_Dvorana = new SimpleIntegerProperty(ID_Dvorana);
+        this.NazivDvorana = new SimpleStringProperty(nazivDvorana);
     }
 
-    public int getIdDvorana() {
-        return idDvorana.get();
+    public int getID_Dvorana() {
+        return ID_Dvorana.get();
     }
 
-    public void setIdDvorana(int idDvorana) {
-        this.idDvorana.set(idDvorana);
+    public void setID_Dvorana(int ID_Dvorana) {
+        this.ID_Dvorana.set(ID_Dvorana);
     }
 
-    public IntegerProperty idDvoranaProperty() {
-        return idDvorana;
+    public IntegerProperty ID_DvoranaProperty() {
+        return ID_Dvorana;
     }
 
     public String getNazivDvorana() {
-        return nazivDvorana.get();
+        return NazivDvorana.get();
     }
 
     public void setNazivDvorana(String nazivDvorana) {
-        this.nazivDvorana.set(nazivDvorana);
+        this.NazivDvorana.set(nazivDvorana);
     }
 
-    public StringProperty nazivDvoranaProperty() {
-        return nazivDvorana;
+    public StringProperty NazivDvoranaProperty() {
+        return NazivDvorana;
     }
 }
